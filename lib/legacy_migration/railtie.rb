@@ -5,7 +5,6 @@ module LegacyMigration
       ActiveSupport.on_load(:action_controller) do
         require 'legacy_migration'
         require 'legacy_migration/legacy_migration'
-        require 'legacy_migration/models/base'
         require 'legacy_migration/migrators/migrator'
         require 'legacy_migration/migrators/model_to_model_migrator'
       end
@@ -13,6 +12,10 @@ module LegacyMigration
 
     rake_tasks do
       Dir[File.join(File.dirname(__FILE__),'tasks/*.rake')].each { |f| load f }
+    end
+
+    generators do
+      require 'legacy_migration/generators/install_generator'
     end
   end
 end

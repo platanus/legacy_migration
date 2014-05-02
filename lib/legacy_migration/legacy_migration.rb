@@ -23,7 +23,7 @@ module LegacyMigration
 
   private
 
-  def load_database_configuration    
+  def load_database_configuration
     location = Rails.root.join(legacy_folder, 'config', 'database.yml')
     config_content = File.read(location)
     evaled_config = ERB.new(config_content).result
@@ -41,8 +41,13 @@ module LegacyMigration
   end
 
   def load_dependencies
+    load_legacy_base
     load_models
     load_migrators
+  end
+
+  def load_legacy_base
+    require 'legacy_migration/models/base'
   end
 
   def load_models

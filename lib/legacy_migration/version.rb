@@ -1,3 +1,3 @@
 module LegacyMigration
-  VERSION = '0.0.1.15'
+  VERSION = '0.0.1.22'
 end
