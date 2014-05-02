@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
   s.summary     = "A rails tool to migrate old (and maybe crappy) databases into new ones"
   s.description = "Migrate old databases to rails models."
   s.files       =  Dir["README.md","Gemfile","Rakefile", "lib/**/*.rb"]
+  s.license     = 'MIT'
 
   s.add_dependency 'rails', '>= 3.2', '<= 4.2'
 end
