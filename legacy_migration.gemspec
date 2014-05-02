@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version     = LegacyMigration::VERSION
   s.authors     = ["Julio García"]
   s.email       = ["julioggonz@gmail.com"]
-  s.homepage    = "http://github.com/juliogarciag/legacy_migration"
+  s.homepage    = "http://github.com/platanus/legacy_migration"
   s.summary     = "A rails tool to migrate old (and maybe crappy) databases into new ones"
   s.description = "Migrate old databases to rails models."
   s.files       =  Dir["README.md","Gemfile","Rakefile", "lib/**/*.rb"]
