@@ -13,7 +13,7 @@ Basically, LegacyMigration is a Rails gem that permits you to transform data fro
 Add this in your Gemfile:
 
 ```ruby
-gem 'legacy_migration'
+gem 'legacy_migration', github: 'platanus/legacy_migration'
 ```
 
 Now you need a place to put your legacy models, the trasformation logic and the old database configuration. To have all of these, run:
