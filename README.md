@@ -8,9 +8,7 @@ The use case of migrate an old database into a new one is a common task, and we 
 
 Basically, LegacyMigration is a Rails gem that permits you to transform data from a database to another, allowing the definition of ActiveRecord models that targets your old database and a set of classes (`migrators`) that allows you to transform an old record into a new one. Because you have an ActiveRecord model to work, you can do everything you can do with ActiveRecord.
 
-## Getting Started
-
-# Installation
+## Installation
 
 Add this in your Gemfile:
 
