@@ -31,7 +31,7 @@ This creates a folder at your project level called **legacy**. Inside legacy you
 
 The first thing you should need to do is to tell to LegacyMigration where is your old database. Inside your `config/database.yml`, you should put the configuration of your old database. Something like this:
 
-```yml
+```yaml
 adapter: legacy_db_adapter # mysql2, postgres, sqlite3, etc
 database: legacy_db_name
 username: legacy_db_user
@@ -102,9 +102,50 @@ LegacyMigration.configure do |config|
   # when the old system is using a `type` column for
   # something. (like redmine)
   config.inheritance_column = 'sti_type'
+  # You can change the legacy/ folder convention too.
+  # This does not apply to the generator (since the
+  # generator creates this file, cannot read this
+  # configuration) and you have to change the folder
+  # name manually before running.
+  config.legacy_folder = 'old'
 end
 
 LegacyMigration.main do
   # ...
 end
 ```
+
+## Migrators
+
+- Migrators support an `after_callback` for complex not one-to-one mappings between old and new models, to change between different data models after a simple migration is done.
+
+```ruby
+class PersonToUserMigrator < LM::ModelToModelMigrator
+  model User, :from => :person
+
+  after_migrate :add_phones
+
+  def migrate_model
+    {
+      email: person.e_mail,
+      username: person.user_name
+    }
+  end
+
+  private
+
+  def add_phones
+    user.phones.create(number: person.home_phone.to_s, kind: 'home')
+    user.phones.create(number: person.cellphone.to_s, kind: 'mobile')
+  end
+end
+```
+
+## TODO
+
+- Create a `seed_after_completion?` configuration option to run `rake db:seed` after the migration is completed, to insert additional data into the database.
+- Create a `restore_previous_database_on_error?` configuration option. This option should:
+    1. Copy the current environment database into a new one for backup. If the process cannot be completed, because a possible lack of permissions, stop the process, don't migrate and show the error and ask to fix or to erase this configuration option.
+    2. Run the migrations. If an error prevent the completion of the migration, destroy the current database and rename the previously backed up database to the current database. In some way, this should work like a complete and safe rollback. Show a WARNING informing the user that an error has happened and the previous database was restored.
+
+    There are technical problems related with the capacity of copy the previous database into a new one (maybe make a full backup, although this can prevent the gem to work with Heroku). Develop more later.
