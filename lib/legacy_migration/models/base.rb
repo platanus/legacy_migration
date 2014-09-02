@@ -10,7 +10,7 @@ module LegacyMigration
     # column used for STI.
     def self.inheritance_column
       if inheritance_column = LegacyMigration.config.inheritance_column
-        :sti_type
+        inheritance_column.to_sym
       else
         :type
       end
