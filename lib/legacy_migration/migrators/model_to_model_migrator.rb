@@ -77,12 +77,20 @@ module LegacyMigration
       def migrate_each(legacy_model, destroy_current_records: nil)
         current_model.destroy_all if destroy_current_records?(destroy_current_records)
 
+        if is_not_a_relation?(legacy_model)
+          legacy_model = legacy_model.all
+        end
+
         legacy_model.find_each do |legacy_model_instance|
           self.new.migrate(legacy_model_instance)
         end
       end
 
       private
+
+      def is_not_a_relation?(relation_or_class)
+        relation_or_class.class == relation_or_class.base_class
+      end
 
       def destroy_current_records?(destroy_current_records)
         if destroy_current_records.present?
