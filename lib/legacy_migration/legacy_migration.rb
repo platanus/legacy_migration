@@ -14,7 +14,9 @@ module LegacyMigration
 
   def start_migration
     load_dependencies
-    main_block.call
+    Base.transaction do
+      main_block.call
+    end
   end
 
   def database_configuration
