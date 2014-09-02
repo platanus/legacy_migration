@@ -1,7 +1,7 @@
 module LegacyMigration
   class Base < ActiveRecord::Base
     establish_connection LegacyMigration.database_configuration
-    
+
     self.abstract_class = true
 
     # Some systems can use `type` attribute for something.
@@ -15,5 +15,11 @@ module LegacyMigration
         :type
       end
     end
+
+    def readonly?
+      true # the legacy database must keep untouched
+    end
+
+    before_destroy { |record| raise ActiveRecord::ReadOnlyRecord }
   end
 end
