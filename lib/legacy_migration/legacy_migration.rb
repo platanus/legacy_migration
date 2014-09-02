@@ -14,7 +14,7 @@ module LegacyMigration
 
   def start_migration
     load_dependencies
-    Base.transaction do
+    ActiveRecord::Base.transaction do
       main_block.call
     end
   end
