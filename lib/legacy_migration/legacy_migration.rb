@@ -1,3 +1,5 @@
+require 'database_cleaner'
+
 module LegacyMigration
   extend self
   include ActiveSupport::Configurable
@@ -15,6 +17,7 @@ module LegacyMigration
   def start_migration
     load_dependencies
     ActiveRecord::Base.transaction do
+      destroy_current_records_if_needed
       main_block.call
     end
   end
@@ -62,6 +65,15 @@ module LegacyMigration
 
   def legacy_folder
     @legacy_folder ||= config.legacy_folder || 'legacy'
+  end
+
+  def destroy_current_records_if_needed
+    destroy_setting = LegacyMigration.config.destroy_current_records
+    if destroy_setting.present?
+      destruction_strategy = destroy_setting == true ? :truncation : destroy_setting
+      DatabaseCleaner.strategy = destruction_strategy
+      DatabaseCleaner.clean
+    end
   end
 end
 

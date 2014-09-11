@@ -74,9 +74,7 @@ module LegacyMigration
         set_callback :migrate, :after, *filters, &blk
       end
 
-      def migrate_each(legacy_model, destroy_current_records: nil)
-        current_model.destroy_all if destroy_current_records?(destroy_current_records)
-
+      def migrate_each(legacy_model)
         if is_not_a_relation?(legacy_model)
           legacy_model = legacy_model.all
         end
@@ -90,14 +88,6 @@ module LegacyMigration
 
       def is_not_a_relation?(relation_or_class)
         relation_or_class.class == relation_or_class.base_class
-      end
-
-      def destroy_current_records?(destroy_current_records)
-        if destroy_current_records.present?
-          destroy_current_records
-        else
-          !!LegacyMigration.config.destroy_current_records
-        end
       end
     end
   end
