@@ -13,7 +13,7 @@ module LegacyMigration
     def migrate(old_record)
       load_old_instance!(old_record)
       new_instance.assign_attributes migrate_model
-      new_instance.id = old_instance.id if old_instance.id.present?
+      new_instance.id = old_instance.id if old_instance.try(:id).present?
       save
       new_instance
     end
