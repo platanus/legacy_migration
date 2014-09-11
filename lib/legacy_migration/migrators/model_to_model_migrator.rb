@@ -32,7 +32,7 @@ module LegacyMigration
     end
 
     def log_errors
-      log "Model of class #{old_instance.class} with id #{old_instance.id} could not be migrated to an instance of #{new_instance.class}. Errors: #{new_instance.errors.as_json}"
+      log "Model of class #{old_instance.class} with id #{old_instance.try(:id)} could not be migrated to an instance of #{new_instance.class}. Errors: #{new_instance.errors.as_json}"
     end
 
     def log(message)
