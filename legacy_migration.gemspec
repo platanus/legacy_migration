@@ -14,6 +14,6 @@ Gem::Specification.new do |s|
   s.files       =  Dir["README.md","Gemfile","Rakefile", "lib/**/*.rb"]
   s.license     = 'MIT'
 
-  s.add_dependency 'rails', '>= 3.2', '<= 4.2'
+  s.add_dependency 'rails', '>= 3.2'
   s.add_dependency 'database_cleaner', '>= 1.3.0'
 end
